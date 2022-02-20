@@ -1,0 +1,27 @@
+{
+  "name": "lesson1",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "start:debug": "node --inspect-brk app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "NodeJS"
+  },
+  "keywords": [
+    "node",
+    "js",
+    "modules",
+    "logger"
+  ],
+  "author": "Osipov S.D.",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "logger": "^0.0.1"
+  }
+}
