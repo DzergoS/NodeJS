@@ -1,4 +1,7 @@
-const logger = require('./utils/Logger');
+--[Sun, 20 Mar 2022 18:29:41 GMT] [success]---
+ app.js
+--[Sun, 20 Mar 2022 18:29:41 GMT] [data]---
+ const logger = require('./utils/Logger');
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const {seek} = require("./utils/FileSeeker");
