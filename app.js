@@ -8,12 +8,12 @@ const argv = yargs(hideBin(process.argv)).argv;
 
 seek(argv.dir, argv.file);
 
-notifications.addListener('success', file => {
+notifications.addListener('seek-success', file => {
     logger.info("[SEEK][SUCCESS]", file)
 })
-notifications.addListener('error', err => {
+notifications.addListener('seek-error', err => {
     logger.info("[SEEK][ERROR]", err.toString())
 })
-notifications.addListener('data', content => {
+notifications.addListener('seek-data', content => {
     logger.info("[SEEK][DATA]", content)
 })

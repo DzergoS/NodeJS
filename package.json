@@ -6,6 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js --dir=. --file=app.js --verbose",
+    "server": "node server.js",
+    "server:verbose": "node server.js --verbose",
     "start:debug": "nodemon app.js --verbose"
   },
   "repository": {
