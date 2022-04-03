@@ -2,7 +2,7 @@ const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const EventEmitter = require("events");
 const logger = require("./Logger");
-const fsPromises = require("fs/promises");
+const fs = require("fs");
 
 class ExtEventEmitter extends EventEmitter {
     constructor(options) {
@@ -17,8 +17,9 @@ class ExtEventEmitter extends EventEmitter {
         logger.warn(`[ExtEventEmitter] Verbose mode: ${!!this._verbose}`)
     }
 
-    async newEventLog (eventName, payload) {
-        await fsPromises.appendFile("./event.log", `---------[${new Date().toUTCString()}] [${eventName.toUpperCase()}]:\n ${payload}\n`);
+    newEventLog (eventName, payload) {
+        fs.createWriteStream("./event.log", {flags: 'a+'})
+            .end(`---------[${new Date().toUTCString()}] [${eventName.toUpperCase()}]:\n ${payload}\n`);
     }
 
     emit(event, ...args) {
