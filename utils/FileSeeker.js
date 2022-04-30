@@ -1,25 +1,16 @@
 const path = require('path');
-const fsPromises = require('fs/promises');
-const {notify} = require('./Notifications');
+const {notifications} = require('./Notifications');
+const fs = require("fs");
 
 
-async function seek (dir, file) {
-    try {
-        await fsPromises.access(dir)
-        const files = await fsPromises.readdir(dir);
-        let content;
-        if(files.includes(file)) {
-            notify('success', path.join(dir, file));
-            content = await fsPromises.readFile(path.join(dir, file), 'utf8');
-            notify('data', content);
-        }
-        else {
-            notify("error", "File doesn't exist ")
-        }
-    }
-    catch (err) {
-        notify("error", err)
-    }
+function seek (dir, file) {
+
+    fs.createReadStream(path.join(dir, file), {encoding: 'utf8'})
+        .on('data', chunk => {
+            notifications.emit('seek-success', path.join(dir, file));
+            notifications.emit('seek-data', chunk);
+        })
+        .on('error', err => notifications.emit("seek-error", err));
 }
 
 module.exports = {seek};

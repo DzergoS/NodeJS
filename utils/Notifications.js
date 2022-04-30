@@ -1,20 +1,35 @@
 const yargs = require('yargs');
 const { hideBin } = require('yargs/helpers');
 const EventEmitter = require("events");
-const {newEventLog} = require("./EventLogger");
+const logger = require("./Logger");
+const fs = require("fs");
 
-const notifications = new EventEmitter();
+class ExtEventEmitter extends EventEmitter {
+    constructor(options) {
+        super(options);
 
-const argv = yargs(hideBin(process.argv)).argv;
+        this.checkVerbose();
+    }
 
-async function notify (eventName, payload) {
-    if(argv.verbose)
-        await newEventLog(eventName, payload);
+    checkVerbose() {
+        const argv = yargs(hideBin(process.argv)).argv;
+        this._verbose = !!argv.verbose;
+        logger.warn(`[ExtEventEmitter] Verbose mode: ${!!this._verbose}`)
+    }
 
-    notifications.emit(eventName, payload);
+    newEventLog (eventName, payload) {
+        fs.createWriteStream("./event.log", {flags: 'a+'})
+            .end(`---------[${new Date().toUTCString()}] [${eventName.toUpperCase()}]:\n ${payload}\n`);
+    }
+
+    emit(event, ...args) {
+        this._verbose && this.newEventLog(event, ...args);
+        return super.emit(event, ...args)
+    }
 }
 
+const notifications = new ExtEventEmitter();
+
 module.exports = {
-    notify,
     notifications
 }
