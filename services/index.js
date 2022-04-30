@@ -1,4 +1,4 @@
-const itemsProvider = require('./itemsProvider')
+const itemsProvider = require('./itemsProvider');
 
 module.exports = {
     itemsProvider
